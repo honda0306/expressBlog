@@ -35,7 +35,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.get('/', (req, res)=> {
-    res.sendStatus('<h1>Welcome!</h1>');
+    res.send('<h1>Welcome!</h1>');
 });
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
