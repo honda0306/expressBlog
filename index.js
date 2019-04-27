@@ -38,11 +38,11 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/home', (req, res)=> {
-    res.send('<h1>Welcome!</h1><a href="/login">Login</a>');
+    res.sendFile(path.join(__dirname, './public/home.html'));
 });
 
 app.get('/admin', oidc.ensureAuthenticated(), (req, res) => {
-    res.send('Admin page');
+    res.sendFile(path.join(__dirname, './public/home.html'));
 });
 
 app.get('/logout', (req, res) => {
