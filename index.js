@@ -42,4 +42,13 @@ app.get('/admin', oidc.ensureAuthenticated(), (req, res) => {
     res.send('Admin page');
 });
 
+app.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/home');
+});
+
+app.get('/', (req, res) => {
+    res.redirect('/home');
+});
+
 app.listen(port, () => console.log(`Server running on port ${port}`));
