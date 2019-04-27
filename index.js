@@ -38,7 +38,7 @@ app.get('/home', (req, res)=> {
     res.send('<h1>Welcome!</h1><a href="/login">Login</a>');
 });
 
-app.get('/admin', (req, res) => {
+app.get('/admin', oidc.ensureAuthenticated(), (req, res) => {
     res.send('Admin page');
 });
 
