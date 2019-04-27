@@ -34,8 +34,12 @@ app.use(oidc.router);
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get('/', (req, res)=> {
-    res.send('<h1>Welcome!</h1>');
+app.get('/home', (req, res)=> {
+    res.send('<h1>Welcome!</h1><a href="/login">Login</a>');
+});
+
+app.get('/admin', (req, res) => {
+    res.send('Admin page');
 });
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
