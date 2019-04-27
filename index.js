@@ -35,6 +35,7 @@ const oidc = new ExpressOIDC({
 app.use(oidc.router);
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/home', (req, res)=> {
     res.send('<h1>Welcome!</h1><a href="/login">Login</a>');
