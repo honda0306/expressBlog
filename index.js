@@ -53,4 +53,41 @@ app.get('/', (req, res) => {
     res.redirect('/home');
 });
 
-app.listen(port, () => console.log(`Server running on port ${port}`));
+const database = new Sequelize({
+    dialect: 'sqlite',
+    storage: './db.sqlite',
+    operatorsAliases: false,
+});
+
+const Post = database.define('posts', {
+    title: Sequelize.STRING,
+    content: Sequelize.TEXT,
+});
+
+epilogue.initialize({ app, sequelize: database });
+
+const PostResource = epilogue.resource({
+    model: Post,
+    endpoints: ['/posts', '/posts/:id'],
+});
+
+PostResource.all.auth(function (req, res, context) {
+    return new Promise(function (resolve, reject) {
+        if (!req.isAuthenticated()) {
+            res.status(401).send({ message: "Unauthorized" });
+            resolve(context.stop);
+        } else {
+            resolve(context.continue);
+        }
+    })
+});
+
+database.sync().then(() => {
+    oidc.on('ready', () => {
+        app.listen(port, () => console.log(`Server running on port ${port}`))
+    })
+});
+
+oidc.on('error', err => {
+    console.log("OIDC error: ", err);
+});
